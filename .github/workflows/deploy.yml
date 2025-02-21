@@ -1,0 +1,18 @@
+name: "Deploy CV-page"
+on:
+  push:
+    branches: ["main"]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy cv-page to prod
+        uses: D3rHase/ssh-command-action@v0.3.1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          user: ${{ secrets.SSH_USER }}
+          private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command: |
+            cd ${{ secrets.PROJECT_FOLDER }};
+            git switch main && git pull;
